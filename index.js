@@ -1,4 +1,8 @@
 const urlRegex = new RegExp("https?://[^/]+/(https?://.+\\.)");
+const defaultResponse = `~ serverless webproxy ~
+source code: https://github.com/y21/serverless-webproxy
+
+simply prepend worker domain and send request`;
 
 addEventListener('fetch', event => {
     event.respondWith(handleRequest(event.request))
@@ -8,12 +12,9 @@ async function handleRequest(request) {
     console.log(request)
     try {
         if (!urlRegex.test(request.url)) {
-            return new Response(JSON.stringify({
-                message: "No valid URL specified. "
-            }), {
-                status: 400,
+            return new Response(defaultResponse, {
                 headers: {
-                    "content-type": "application/json"
+                    "content-type": "text/plain"
                 }
             })
         } else {
