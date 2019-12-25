@@ -1,4 +1,4 @@
-const urlRegex = new RegExp("[?&]url=(.+)");
+const urlRegex = new RegExp("https?://[^/]+/(https?://.+\\.)");
 
 addEventListener('fetch', event => {
     event.respondWith(handleRequest(event.request))
@@ -9,7 +9,7 @@ async function handleRequest(request) {
     try {
         if (!urlRegex.test(request.url)) {
             return new Response(JSON.stringify({
-                message: "no url specified. set url query"
+                message: "No valid URL specified. "
             }), {
                 status: 400,
                 headers: {
